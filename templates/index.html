@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+  <!-- Head & Navigation -->
+  {% include "header.html" %}
+
+  <body>
+
+    <!-- Page Header -->
+    <header class="masthead" style="background-image: url('static/img/blog-bg.jpg')">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="site-heading">
+              <h1>Angela's Blog</h1>
+              <span class="subheading">A collection of Angela's random musings.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+
+          {% for post in all_posts: %}
+            <div class="post-preview">
+              <a href="{{ url_for('get_post', index=post.id) }}" target="_blank">
+                <h2 class="post-title">{{ post.title }}</h2>
+                <h3 class="post-subtitle">{{ post.subtitle }}</h3>
+              </a>
+              <p class="post-meta">Posted by
+                <a href="https://www.londonappbrewery.com/" target="_blank">{{ post.author.name }} </a>
+                on {{ post.date }}
+                {% if user.id == 1 %}
+                  <a href="{{ url_for('delete_post', index=post.id) }}">✘</a>
+                {% endif %}
+              </p>
+            </div>
+            <hr>
+          {% endfor %}
+
+          <!-- New Post -->
+          {% if user.id == 1 %}
+            <div class="clearfix">
+              <a class="btn btn-primary float-right" href="{{ url_for('new_post') }}">Create New Post</a>
+            </div>
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- Footer -->
+    {% include "footer.html" %}
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="{{ url_for('static', filename='js/clean-blog.min.js') }}"></script>
+
+  </body>
+
+</html>
